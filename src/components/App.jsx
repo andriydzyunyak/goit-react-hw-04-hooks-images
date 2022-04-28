@@ -42,7 +42,7 @@ export class App extends Component {
 
         if (galleryItems.totalHits === 0) {
           Notiflix.Notify.failure(
-            'Sorry, there are no images matching your search query. Please try again.',
+            'Sorry, there are no images matching your search query. Please try again.'
           );
         }
 
@@ -51,7 +51,7 @@ export class App extends Component {
             id,
             webformatURL,
             largeImageURL,
-          }),
+          })
         );
 
         this.state.gallery.length === 0
