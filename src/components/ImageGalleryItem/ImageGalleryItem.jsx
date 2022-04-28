@@ -1,58 +1,45 @@
 import { Modal } from 'components/Modal/Modal';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ImageGalleryCard,
   ImageGalleryCardImg,
 } from 'components/ImageGalleryItem/ImageGalleryItem.styled';
 import PropTypes from 'prop-types';
 
-export class ImageGalleryItem extends Component {
-  state = {
-    isModalOpen: false,
-  };
-  componentDidMount() {
-    window.document.addEventListener('keydown', this.handleKeyEsc);
-  }
-  componentWillUnmount() {
-    window.document.removeEventListener('keydown', this.handleKeyEsc);
-  }
+export const ImageGalleryItem = ({ webImage, modalImage }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  openModal = () => {
-    this.setState({ isModalOpen: true });
-  };
+  useEffect(() => {
+    function handleKeyEsc(evt) {
+      if (evt.code === 'Escape') setIsModalOpen(false);
+    }
+    window.document.addEventListener('keydown', handleKeyEsc);
+    return function cleanup() {
+      window.document.removeEventListener('keydown', handleKeyEsc);
+    };
+  });
 
-  closeModal = () => {
-    this.setState({ isModalOpen: false });
-  };
-
-  handleKeyEsc = evt => {
-    if (evt.code === 'Escape') this.closeModal({});
+  const handleOverlayClick = evt => {
+    if (evt.target === evt.currentTarget) {
+      setIsModalOpen(false);
+    }
   };
 
-  handleOverlayClick = evt => {
-    if (evt.target === evt.currentTarget) this.closeModal({});
-  };
-
-  render() {
-    const { webImage, modalImage } = this.props;
-    const { isModalOpen } = this.state;
-    return (
-      <ImageGalleryCard>
-        <ImageGalleryCardImg
-          src={webImage}
-          alt="name"
-          onClick={this.openModal}
-        />
-        {isModalOpen && (
-          <Modal
-            image={modalImage}
-            handleOverlayClick={this.handleOverlayClick}
-          />
-        )}
-      </ImageGalleryCard>
-    );
-  }
-}
+  return (
+    <ImageGalleryCard>
+      <ImageGalleryCardImg
+        src={webImage}
+        alt="name"
+        onClick={() => {
+          setIsModalOpen(true);
+        }}
+      />
+      {isModalOpen && (
+        <Modal image={modalImage} handleOverlayClick={handleOverlayClick} />
+      )}
+    </ImageGalleryCard>
+  );
+};
 
 ImageGalleryItem.propTypes = {
   webImage: PropTypes.string.isRequired,
