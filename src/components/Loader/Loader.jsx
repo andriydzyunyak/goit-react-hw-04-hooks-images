@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export const Loader = ({ loading }) => {
   return (
     <Spinner>
-      <HashLoader color="#ff0000" loading={loading} size={65} />
+      <HashLoader color="#ff0000" loading={loading} size={40} />
     </Spinner>
   );
 };
