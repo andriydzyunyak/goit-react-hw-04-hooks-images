@@ -9,6 +9,7 @@ import * as API from 'services/api';
 import Notiflix from 'notiflix';
 
 export const App = () => {
+  //обьявляем стейт
   const [searchQuery, setSearchQuery] = useState('');
   const [gallery, setGallery] = useState([]);
   const [totalHits, setTotalHits] = useState(0);
